@@ -28,7 +28,7 @@ function InvoiceTemplate({ data }) {
             x: 10,
             y: 10,
             width: 190, // Maximum width of the content
-            windowWidth: 1024 // Window width for rendering the HTML content
+            windowWidth: 720 // Window width for rendering the HTML content
         });
     };
 
@@ -42,7 +42,16 @@ function InvoiceTemplate({ data }) {
                             max-width: 210mm; /* A4 paper width */
                             margin: auto;
                             padding: 10px;
-                            font-size: 12px;
+                            font-size: 16px; /* Increase overall font size */
+                        }
+                        .invoice-title {
+                            font-size: 24px; /* Larger title */
+                        }
+                        .customer-details, .total-due, .bank-details, .signature-section {
+                            font-size: 18px; /* Larger customer details, totals, etc. */
+                        }
+                        .table-header, .table-data {
+                            font-size: 16px; /* Larger table content */
                         }
                         .no-break-inside {
                             page-break-inside: avoid;
@@ -62,24 +71,24 @@ function InvoiceTemplate({ data }) {
                     </div>
                 </div>
                 <div className="pb-2 mb-2 text-center border-b">
-                    <div className="text-xl font-bold" style={{ fontFamily: 'Roboto Slab, serif' }}>Sweet Slices</div>
+                    <div className="text-xl font-bold invoice-title" style={{ fontFamily: 'Roboto Slab, serif' }}>Sweet Slices</div>
                     <div className="mt-1 text-sm">Backed With Love</div>
                 </div>
-                <div className="mb-4">
+                <div className="mb-4 customer-details">
                     <h3 className="text-sm font-bold">Customer Details</h3>
                     <p className="mt-1 text-sm text-gray-700">Client Name: {data.clientName}</p>
                     <p className="text-sm text-gray-700">Contact No: {data.clientContact}</p>
                 </div>
                 <table className="w-full mb-4 border-collapse">
                     <thead>
-                        <tr>
+                        <tr className="table-header">
                             <th className="px-1 py-1 text-left bg-gray-200 border">No</th>
                             <th className="px-2 py-1 text-left bg-gray-200 border">Service</th>
                             <th className="px-2 py-1 text-left bg-gray-200 border">Description</th>
                             <th className="px-1 py-1 text-right bg-gray-200 border">Amount ({data.currency})</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="table-data">
                         {data.items.map((item, index) => (
                             <tr key={index} className="no-break-row">
                                 <td className="px-1 py-1 border">{index + 1}</td>
@@ -100,7 +109,7 @@ function InvoiceTemplate({ data }) {
                             <td colSpan="3" className="px-2 py-1 font-semibold text-right">Discount</td>
                             <td className="px-2 py-1 text-right">{data.discount || 0} %</td>
                         </tr>
-                        <tr>
+                        <tr className="total-due">
                             <td colSpan="3" className="px-2 py-1 font-bold text-right">Total Due</td>
                             <td className="px-2 py-1 font-bold text-right">{calculateBalanceDue()} {data.currency}</td>
                         </tr>
@@ -108,7 +117,7 @@ function InvoiceTemplate({ data }) {
                 </table>
                 <p className="text-sm text-red-500">{data.redNote}</p>
 
-                <div className="flex justify-between mt-40">
+                <div className="flex justify-between mt-40 bank-details">
                     <div>
                         <p className="text-sm font-semibold">
                             Please Kindly Deposit / Transfer Your Payment Into The <br />
@@ -119,7 +128,7 @@ function InvoiceTemplate({ data }) {
                         <p className="text-sm"><b>Acc No</b>: 055020320139</p>
                         <p className="text-sm"><b>Branch</b>: Borella</p>
                     </div>
-                    <div>
+                    <div className="signature-section">
                         <img src={Sign} alt="Sign" className="h-12" />
                         <p>''''''''''''''''''''''''''''''''''''''</p>
                         <h3 className="text-sm font-bold">Authorised Sign</h3>
